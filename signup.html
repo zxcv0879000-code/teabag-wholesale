@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>회원가입 — 삼각티백 도매</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav scrolled">
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 29 28H3z" fill="#123b2c"/></svg><span>삼각티백 도매</span></a>
+  </header>
+  <main class="page">
+    <form class="card form" id="f" novalidate>
+      <div>
+        <h1>회원가입</h1>
+        <p class="sub">이메일과 비밀번호만 있으면 가입할 수 있어요.</p>
+      </div>
+      <div class="field">
+        <label for="email">이메일</label>
+        <input id="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="password">비밀번호</label>
+        <input id="password" type="password" autocomplete="new-password" minlength="8" required>
+        <p class="hint">8자 이상으로 만들어 주세요.</p>
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="consent" required>
+        <span>(필수) 회원 확인을 위해 이메일을 수집하고, 탈퇴할 때까지 보관하는 데 동의합니다. <a href="/privacy">개인정보 처리방침</a></span>
+      </label>
+      <p class="form-msg" id="msg" role="status" hidden></p>
+      <button class="btn" type="submit" id="btn">회원가입</button>
+      <div class="links"><a href="/login">이미 회원이에요 — 로그인</a></div>
+    </form>
+  </main>
+  <script src="auth.js"></script>
+  <script>
+    const f = document.getElementById('f'), msg = document.getElementById('msg'), btn = document.getElementById('btn');
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = f.email.value.trim(), password = f.password.value;
+      if (!email || !email.includes('@')) return say(msg, '이메일을 정확히 적어 주세요.');
+      if (password.length < 8) return say(msg, '비밀번호는 8자 이상이어야 해요.');
+      if (!document.getElementById('consent').checked) return say(msg, '개인정보 수집·이용에 동의해 주세요.');
+      busy(btn, true, '가입하는 중…');
+      try {
+        const r = await auth('signup', { email, password, data: { consent: true, consent_at: new Date().toISOString() } });
+        if (!r.ok) {
+          const m = String(r.data.msg || r.data.error_description || r.data.message || '');
+          if (/already|registered|exists/i.test(m)) return say(msg, '이미 가입한 이메일이에요. 로그인해 주세요.');
+          if (/password/i.test(m)) return say(msg, '비밀번호가 너무 쉬워요. 더 길게 만들어 주세요.');
+          if (r.status === 429) return say(msg, '잠시 뒤 다시 시도해 주세요. 가입 요청이 많아요.');
+          return say(msg, '가입하지 못했어요. 잠시 뒤 다시 시도해 주세요.');
+        }
+        if (r.data.access_token) { setToken(r.data.access_token); location.href = '/members'; return; }
+        f.reset();
+        say(msg, '확인 메일을 보냈어요. 메일의 링크를 누른 뒤 로그인해 주세요.', true);
+      } catch (err) { say(msg, err.message); }
+      finally { busy(btn, false); }
+    });
+  </script>
+</body>
+</html>

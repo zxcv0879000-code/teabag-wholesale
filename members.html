@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>회원 페이지 — 삼각티백 도매</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav scrolled">
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 29 28H3z" fill="#123b2c"/></svg><span>삼각티백 도매</span></a>
+  </header>
+  <main class="page">
+    <section class="card form" aria-live="polite">
+      <div>
+        <h1>회원 페이지</h1>
+        <p class="sub" id="who">확인하는 중…</p>
+      </div>
+      <p id="content" hidden></p>
+      <p class="form-msg" id="msg" role="status" hidden></p>
+      <a class="btn" href="/#contact">도매 단가 문의</a>
+      <button class="btn ghost" type="button" id="logout">로그아웃</button>
+    </section>
+  </main>
+  <script src="auth.js"></script>
+  <script>
+    const token = getToken();
+    if (!token) location.replace('/login');
+
+    (async () => {
+      try {
+        const r = await fetch('/api/members', { headers: { Authorization: `Bearer ${token}` } });
+        const d = await r.json().catch(() => ({}));
+        if (r.status === 401) { setToken(''); location.replace('/login'); return; }
+        if (!r.ok) throw new Error(d.error || '불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.');
+        document.getElementById('who').textContent = `${d.email} 으로 로그인했어요.`;
+        const c = document.getElementById('content');
+        c.textContent = d.content; c.hidden = false;
+      } catch (err) { say(document.getElementById('msg'), err.message); }
+    })();
+
+    document.getElementById('logout').addEventListener('click', async () => {
+      try { await auth('logout', {}, token); } catch {}
+      setToken('');
+      location.href = '/';
+    });
+  </script>
+</body>
+</html>

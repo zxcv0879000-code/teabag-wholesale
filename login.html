@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>로그인 — 삼각티백 도매</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav scrolled">
+    <a class="logo" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 29 28H3z" fill="#123b2c"/></svg><span>삼각티백 도매</span></a>
+  </header>
+  <main class="page">
+    <form class="card form" id="f" novalidate>
+      <div>
+        <h1>로그인</h1>
+        <p class="sub">회원 전용 안내를 보려면 로그인해 주세요.</p>
+      </div>
+      <div class="field">
+        <label for="email">이메일</label>
+        <input id="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field" id="pwField">
+        <label for="password">비밀번호</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="form-msg" id="msg" role="status" hidden></p>
+      <button class="btn" type="submit" id="btn">로그인</button>
+      <div class="links">
+        <a href="/signup">회원가입</a>
+        <a href="#" id="forgot">비밀번호를 잊었어요</a>
+      </div>
+    </form>
+  </main>
+  <script src="auth.js"></script>
+  <script>
+    const f = document.getElementById('f'), msg = document.getElementById('msg'), btn = document.getElementById('btn');
+    if (getToken()) location.replace('/members');
+
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = f.email.value.trim(), password = f.password.value;
+      if (!email || !password) return say(msg, '이메일과 비밀번호를 적어 주세요.');
+      busy(btn, true, '로그인하는 중…');
+      try {
+        const r = await auth('token?grant_type=password', { email, password });
+        if (!r.ok) {
+          const m = String(r.data.error_code || r.data.msg || r.data.error_description || '');
+          if (/not.?confirmed/i.test(m)) return say(msg, '메일 확인이 아직이에요. 받은 메일의 링크를 먼저 눌러 주세요.');
+          return say(msg, '이메일 또는 비밀번호가 맞지 않아요.');
+        }
+        setToken(r.data.access_token);
+        location.href = '/members';
+      } catch (err) { say(msg, err.message); }
+      finally { busy(btn, false); }
+    });
+
+    document.getElementById('forgot').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = f.email.value.trim();
+      if (!email) { f.email.focus(); return say(msg, '이메일을 먼저 적어 주세요. 비밀번호를 다시 만드는 메일을 보내 드려요.'); }
+      try { await auth('recover', { email }); say(msg, '메일을 확인해 주세요.', true); }
+      catch (err) { say(msg, err.message); }
+    });
+  </script>
+</body>
+</html>
