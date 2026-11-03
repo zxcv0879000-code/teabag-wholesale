@@ -97,13 +97,13 @@ body::after {
   overflow: hidden;
   display: flex; flex-direction: column; justify-content: space-between;
 }
-.hero-grid { position: relative; display: grid; grid-template-columns: 1.35fr 1fr; align-items: center; gap: 2rem; }
+.hero-grid { position: relative; display: grid; grid-template-columns: 1.5fr 1fr; align-items: center; gap: 2rem; }
 .hero h1 {
   margin: 0;
-  font: 400 clamp(2.9rem, 8.6vw, 8.4rem)/0.98 var(--display);
+  font: 400 clamp(2.1rem, 4.9vw, 4.7rem)/1.04 var(--display);
   letter-spacing: -0.035em;
 }
-.hero h1 .line { display: block; overflow: hidden; padding-bottom: .04em; }
+.hero h1 .line { display: block; overflow: hidden; padding-bottom: .04em; white-space: nowrap; }
 .hero h1 .line > span { display: inline-block; transform: translateY(105%); animation: rise 1.2s var(--ease) forwards; }
 .hero h1 .line:nth-child(2) > span { animation-delay: .08s; }
 .hero h1 .line:nth-child(3) > span { animation-delay: .16s; }
@@ -111,7 +111,7 @@ body::after {
 .hero h1 .num { font-variant-numeric: lining-nums; }
 @keyframes rise { to { transform: translateY(0); } }
 
-.teabag-stage { position: relative; aspect-ratio: 4 / 5; max-width: 440px; justify-self: center; width: 100%; }
+.teabag-stage { position: relative; aspect-ratio: 4 / 5; max-width: 360px; justify-self: center; width: 100%; }
 .teabag {
   position: absolute; inset: 0;
   transform-origin: 50% 0%;
