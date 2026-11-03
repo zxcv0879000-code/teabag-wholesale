@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>삼각티백 도매 — 쇼핑몰 셀러 납품</title>
+  <meta name="description" content="쇼핑몰 셀러를 위한 삼각티백, 2000개 단위로 납품합니다. 받은 티백은 직접 포장해 소매로 판매하실 수 있어요.">
+  <meta name="theme-color" content="#cbd5a9">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 29 28H3z' fill='%23123b2c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="nav" id="nav">
+    <a class="logo" href="/" aria-label="삼각티백 도매 처음으로">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 29 28H3z" fill="#123b2c"/><path d="M16 3v25" stroke="#cbd5a9" stroke-width="1.5"/></svg>
+      <span>삼각티백 도매</span>
+    </a>
+    <nav class="nav-links" aria-label="주요 메뉴">
+      <a href="#how">거래 방식</a>
+      <a href="#tea">차 종류</a>
+      <a href="#proof">믿을 수 있는 이유</a>
+      <a href="#faq">자주 묻는 것</a>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-login" href="/login" id="navLogin">로그인</a>
+      <a class="btn" href="#contact">도매 단가 문의</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="wrap hero-grid">
+        <h1 id="heroTitle">
+          <span class="line"><span>쇼핑몰 셀러를 위한</span></span>
+          <span class="line"><span>삼각티백,</span></span>
+          <span class="line"><span><span class="num">2000</span>개 단위로</span></span>
+          <span class="line"><span>납품합니다.</span></span>
+        </h1>
+        <div class="teabag-stage" aria-hidden="true">
+          <svg class="teabag" viewBox="0 0 400 500">
+            <defs>
+              <pattern id="mesh" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+                <path d="M0 0H7M0 0V7" stroke="#123b2c" stroke-opacity=".13" stroke-width=".8"/>
+              </pattern>
+              <clipPath id="bag"><path d="M200 175 66 418 214 470 338 398z"/></clipPath>
+            </defs>
+            <!-- 꼬리표 -->
+            <rect x="148" y="12" width="104" height="64" rx="12" fill="#123b2c"/>
+            <path d="M200 76v100" stroke="#f3f4e7" stroke-width="2.5"/>
+            <path d="M172 44h56" stroke="#cbd5a9" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="200" cy="26" r="4.5" fill="#cbd5a9"/>
+            <!-- 망 -->
+            <path d="M200 175 66 418 214 470z" fill="#f3f4e7" fill-opacity=".72"/>
+            <path d="M200 175 214 470 338 398z" fill="#e4e8c6" fill-opacity=".8"/>
+            <g clip-path="url(#bag)">
+              <path d="M40 360c50-26 92 10 140-6 52-18 90-30 180 4v160H40z" fill="#4c5b2e"/>
+              <g fill="#2e3f1d">
+                <ellipse cx="110" cy="398" rx="16" ry="5" transform="rotate(-24 110 398)"/>
+                <ellipse cx="160" cy="420" rx="18" ry="5" transform="rotate(14 160 420)"/>
+                <ellipse cx="226" cy="402" rx="15" ry="4.5" transform="rotate(-40 226 402)"/>
+                <ellipse cx="268" cy="430" rx="17" ry="5" transform="rotate(20 268 430)"/>
+                <ellipse cx="196" cy="448" rx="14" ry="4" transform="rotate(-10 196 448)"/>
+                <ellipse cx="300" cy="396" rx="12" ry="4" transform="rotate(35 300 396)"/>
+              </g>
+              <g fill="#8d9f72">
+                <ellipse cx="136" cy="378" rx="11" ry="3.5" transform="rotate(30 136 378)"/>
+                <ellipse cx="246" cy="378" rx="12" ry="3.5" transform="rotate(-18 246 378)"/>
+                <ellipse cx="180" cy="392" rx="9" ry="3" transform="rotate(50 180 392)"/>
+              </g>
+              <rect x="0" y="150" width="400" height="350" fill="url(#mesh)"/>
+            </g>
+            <path d="M200 175 66 418 214 470 338 398z M200 175 214 470" fill="none" stroke="#123b2c" stroke-opacity=".35" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M190 180h20" stroke="#123b2c" stroke-opacity=".4" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="wrap hero-foot fade-in">
+        <p>받으신 티백은 각자 포장해 소매로 판매하시면 됩니다. 단가는 원하시는 차 종류를 확인한 뒤 따로 안내해 드려요.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">도매 단가 문의</a>
+          <a class="btn ghost" href="#how">거래 방식 보기</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block straw" id="how" aria-labelledby="howTitle">
+      <div class="wrap">
+        <h2 id="howTitle">이렇게 거래해요</h2>
+        <p class="lead">티백은 저희가 2000개 단위로 납품하고, 포장과 판매는 셀러님 브랜드로 하시면 됩니다.</p>
+        <ol class="steps">
+          <li><h3>단가 문의</h3><p>아래 폼에 원하시는 차 종류를 적어 남겨 주세요.</p></li>
+          <li><h3>단가 안내</h3><p>문의를 확인한 뒤 연락드려 단가를 알려 드려요.</p></li>
+          <li><h3>2000개 단위 납품</h3><p>삼각티백을 2000개 단위로 보내 드립니다.</p></li>
+          <li class="you"><h3>직접 포장해 판매</h3><p>셀러님 포장으로 쇼핑몰에서 소매 판매하세요.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="block paper" id="tea" aria-labelledby="teaTitle">
+      <div class="wrap">
+        <h2 id="teaTitle">차 종류</h2>
+        <p class="lead">차 종류 목록은 정리해서 곧 올릴게요. 지금은 원하시는 차를 문의에 적어 주시면 확인 후 연락드려요.</p>
+        <div class="proof" id="proof">
+          <div class="proof-photo">
+            <div><strong>제품·작업 사진</strong>실제 티백과 작업 사진을 이 자리에 올릴 예정이에요.</div>
+          </div>
+          <div class="proof-list" aria-label="믿을 수 있는 이유">
+            <div class="proof-item">
+              <h3>식품 관련 서류</h3>
+              <p>판매에 필요한 식품 관련 서류를 갖추고 있어요. 필요한 서류는 문의에 함께 적어 주세요.</p>
+            </div>
+            <div class="proof-item">
+              <h3>거래 경력·거래처</h3>
+              <p>지금 거래처에 납품하고 있어요. 기간과 거래처는 정리해서 이곳에 올릴게요.</p>
+              <span class="pending">정리 중</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block forest" id="faq" aria-labelledby="faqTitle">
+      <div class="wrap">
+        <h2 id="faqTitle">자주 묻는 것</h2>
+        <p class="lead">연락하시기 전에 많이 물어보시는 것들이에요.</p>
+        <div class="faq">
+          <details>
+            <summary>가격은 얼마인가요?</summary>
+            <p>단가는 사이트에 공개하지 않아요. 원하시는 차 종류를 적어 문의해 주시면 확인 후 따로 안내해 드려요.</p>
+          </details>
+          <details>
+            <summary>몇 개부터 주문할 수 있나요?</summary>
+            <p>삼각티백은 2000개 단위로 납품해요.</p>
+          </details>
+          <details>
+            <summary>포장은 누가 하나요?</summary>
+            <p>티백만 납품하고, 포장은 셀러님이 직접 하셔서 소매로 판매하시면 됩니다.</p>
+          </details>
+          <details>
+            <summary>샘플이나 서류를 받을 수 있나요?</summary>
+            <p>식품 관련 서류는 갖추고 있어요. 샘플이나 필요한 서류가 있으면 문의에 함께 적어 주세요. 확인 후 연락드려요.</p>
+          </details>
+        </div>
+        <div class="reviews">
+          <h3>거래처 후기</h3>
+          <p>실제 거래처 후기가 모이면 이곳에 싣겠습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block straw" id="contact" aria-labelledby="contactTitle">
+      <div class="wrap contact-grid">
+        <div class="contact-side">
+          <h2 id="contactTitle">도매 단가 문의</h2>
+          <p>이름과 연락처, 원하시는 차 종류만 남겨 주세요. 확인 후 연락드려 단가를 알려 드려요.</p>
+          <ul>
+            <li>2000개 단위 납품</li>
+            <li>포장·판매는 셀러님 브랜드로</li>
+            <li>단가는 문의 후 개별 안내</li>
+          </ul>
+        </div>
+        <form class="form" id="inquiryForm" novalidate>
+          <div class="field">
+            <label for="f-name">이름 또는 상호</label>
+            <input id="f-name" name="name" autocomplete="name" maxlength="50" required>
+          </div>
+          <div class="field">
+            <label for="f-contact">연락처</label>
+            <input id="f-contact" name="contact" autocomplete="tel" maxlength="100" placeholder="전화번호 또는 이메일" required>
+          </div>
+          <div class="field">
+            <label for="f-tea">원하는 차 종류</label>
+            <textarea id="f-tea" name="tea_type" maxlength="1000" placeholder="예: 녹차, 보리차 / 아직 정하지 못했어요"></textarea>
+            <p class="hint">샘플이나 필요한 서류가 있으면 같이 적어 주세요.</p>
+          </div>
+          <div class="trap" aria-hidden="true">
+            <label for="f-website">웹사이트</label>
+            <input id="f-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <label class="consent">
+            <input type="checkbox" id="f-consent" required>
+            <span>(필수) 문의 답변을 위해 이름·연락처·원하는 차 종류를 수집하고, 문의 처리 후 1년간 보관한 뒤 파기하는 데 동의합니다. <a href="/privacy">개인정보 처리방침</a></span>
+          </label>
+          <p class="form-msg" id="formMsg" role="status" hidden></p>
+          <button class="btn" type="submit" id="submitBtn">도매 단가 문의 보내기</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <p class="big">삼각티백 도매</p>
+        <nav aria-label="아래 메뉴">
+          <a href="#contact">도매 단가 문의</a>
+          <a href="/login">로그인</a>
+          <a href="/signup">회원가입</a>
+          <a href="/privacy">개인정보 처리방침</a>
+        </nav>
+      </div>
+      <small>© 삼각티백 도매</small>
+    </div>
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>
