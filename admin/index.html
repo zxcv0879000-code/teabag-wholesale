@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>관리자 — 삼각티백 도매</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --forest: #123b2c; --sage: #cbd5a9; --straw: #e4e8c6; --paper: #f3f4e7; --muted: #4c6656; --line: rgba(18,59,44,.15); --danger: #9b2c1f; }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; background: var(--paper); color: var(--forest); font: 400 16px/1.6 "IBM Plex Sans KR", system-ui, sans-serif; word-break: keep-all; }
+    :focus-visible { outline: 3px solid var(--forest); outline-offset: 2px; }
+    .top { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .9rem 1rem; background: var(--forest); color: var(--paper); }
+    .top strong { font-size: 1.05rem; }
+    .top button { min-height: 40px; padding: .4rem .9rem; border: 1px solid rgba(243,244,231,.4); border-radius: 999px; background: transparent; color: var(--paper); font: inherit; cursor: pointer; }
+    main { width: min(760px, 100%); margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+    .login { margin-top: 12vh; padding: 1.5rem; border-radius: 1.25rem; background: #fff; }
+    .login h1 { margin: 0 0 1rem; font-size: 1.4rem; }
+    input[type=password] { width: 100%; min-height: 52px; padding: .8rem 1rem; border: 1.5px solid rgba(18,59,44,.3); border-radius: 12px; font: inherit; font-size: 16px; }
+    .btn { min-height: 52px; padding: .7rem 1.2rem; border: 0; border-radius: 12px; background: var(--forest); color: var(--paper); font-family: inherit; font-weight: 700; font-size: 16px; line-height: 1; cursor: pointer; }
+    .login .btn { width: 100%; margin-top: .75rem; }
+    .err { margin: .75rem 0 0; color: var(--danger); font-weight: 600; }
+    .tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
+    .tabs button { flex: 1; min-height: 48px; border: 1.5px solid var(--forest); border-radius: 999px; background: transparent; color: var(--forest); font-family: inherit; font-weight: 600; font-size: 16px; line-height: 1; cursor: pointer; }
+    .tabs button[aria-selected=true] { background: var(--forest); color: var(--paper); }
+    .count { display: flex; align-items: baseline; gap: .6rem; margin: .5rem 0 1.25rem; }
+    .count b { font-size: 3rem; line-height: 1; }
+    .list { display: grid; gap: .8rem; }
+    .item { padding: 1.1rem; border-radius: 1rem; background: #fff; border: 1px solid var(--line); }
+    .item.new { border-left: 6px solid var(--forest); }
+    .meta { display: flex; justify-content: space-between; gap: .5rem; font-size: .9rem; color: var(--muted); }
+    .name { margin: .3rem 0 .1rem; font-size: 1.15rem; font-weight: 700; }
+    .contact { display: inline-block; margin: .2rem 0 .5rem; padding: .35rem .7rem; border: 0; border-radius: 8px; background: var(--straw); color: var(--forest); font-family: inherit; font-weight: 600; font-size: 16px; line-height: 1.4; cursor: pointer; user-select: all; }
+    .tea { margin: 0 0 .8rem; white-space: pre-wrap; }
+    .tea.empty { color: var(--muted); }
+    .status { display: flex; gap: .4rem; }
+    .status button { flex: 1; min-height: 46px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--forest); font-family: inherit; font-weight: 600; font-size: 15px; line-height: 1; cursor: pointer; }
+    .status button[aria-pressed=true] { background: var(--forest); border-color: var(--forest); color: var(--paper); }
+    .empty-state { padding: 2rem 1rem; text-align: center; color: var(--muted); background: #fff; border-radius: 1rem; }
+    .toast { position: fixed; left: 50%; bottom: 1.25rem; transform: translateX(-50%); padding: .6rem 1rem; border-radius: 999px; background: var(--forest); color: var(--paper); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <strong>삼각티백 도매 관리자</strong>
+    <button type="button" id="logout" hidden>나가기</button>
+  </header>
+  <main>
+    <form class="login" id="loginForm">
+      <h1>관리자 비밀번호</h1>
+      <input type="password" id="pw" autocomplete="current-password" aria-label="관리자 비밀번호" required>
+      <button class="btn" type="submit">들어가기</button>
+      <p class="err" id="loginErr" hidden></p>
+    </form>
+
+    <section id="app" hidden>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-tab="inq">문의함</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="mem">회원</button>
+      </div>
+
+      <div id="inqView">
+        <div class="count"><b id="newCount">0</b><span>건의 새 문의</span></div>
+        <div class="list" id="inqList"></div>
+      </div>
+
+      <div id="memView" hidden>
+        <div class="count"><b id="memCount">0</b><span>명의 회원</span></div>
+        <div class="list" id="memList"></div>
+      </div>
+      <p class="err" id="appErr" hidden></p>
+    </section>
+  </main>
+  <div class="toast" id="toast" hidden></div>
+
+  <script>
+    const KEY = 'admin_pw';
+    const STATUSES = ['새 문의', '연락함', '완료'];
+    const $ = (id) => document.getElementById(id);
+    const getPw = () => { try { return sessionStorage.getItem(KEY) || ''; } catch { return ''; } };
+    const setPw = (v) => { try { v ? sessionStorage.setItem(KEY, v) : sessionStorage.removeItem(KEY); } catch {} };
+    const fmt = (s) => s ? new Date(s).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const toast = (t) => { const el = $('toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => (el.hidden = true), 1800); };
+
+    async function api(path, opts = {}) {
+      const r = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', 'x-admin-password': getPw(), ...(opts.headers || {}) } });
+      const data = await r.json().catch(() => ({}));
+      if (r.status === 401) { showLogin(data.error || '비밀번호가 맞지 않아요.'); throw new Error('401'); }
+      if (!r.ok) throw new Error(data.error || '문제가 생겼어요. 다시 시도해 주세요.');
+      return data;
+    }
+
+    function showLogin(msg) {
+      setPw('');
+      $('app').hidden = true; $('logout').hidden = true; $('loginForm').hidden = false;
+      $('loginErr').textContent = msg || ''; $('loginErr').hidden = !msg;
+      $('pw').value = ''; $('pw').focus();
+    }
+
+    function showErr(msg) { $('appErr').textContent = msg; $('appErr').hidden = !msg; }
+
+    async function loadInquiries() {
+      const { rows } = await api('/api/admin');
+      $('newCount').textContent = rows.filter((r) => r.status === '새 문의').length;
+      $('inqList').innerHTML = rows.length ? rows.map((r) => `
+        <article class="item${r.status === '새 문의' ? ' new' : ''}">
+          <div class="meta"><span>${fmt(r.created_at)}</span><span>${esc(r.status)}</span></div>
+          <p class="name">${esc(r.name)}</p>
+          <button type="button" class="contact" data-copy="${esc(r.contact)}">${esc(r.contact)}</button>
+          <p class="tea${r.tea_type ? '' : ' empty'}">${r.tea_type ? esc(r.tea_type) : '원하는 차 종류를 적지 않았어요'}</p>
+          <div class="status">${STATUSES.map((s) => `<button type="button" data-id="${r.id}" data-status="${s}" aria-pressed="${r.status === s}">${s}</button>`).join('')}</div>
+        </article>`).join('') : '<p class="empty-state">아직 들어온 문의가 없어요. 사이트의 문의 폼으로 들어온 문의가 여기에 쌓여요.</p>';
+    }
+
+    async function loadMembers() {
+      const { users } = await api('/api/admin?view=members');
+      $('memCount').textContent = users.length;
+      $('memList').innerHTML = users.length ? users.map((u) => `
+        <article class="item">
+          <p class="name">${esc(u.email)}</p>
+          <div class="meta"><span>가입 ${fmt(u.created_at)}</span><span>마지막 로그인 ${fmt(u.last_sign_in_at)}</span></div>
+        </article>`).join('') : '<p class="empty-state">아직 가입한 회원이 없어요.</p>';
+    }
+
+    async function enter() {
+      try {
+        showErr('');
+        await loadInquiries();
+        $('loginForm').hidden = true; $('app').hidden = false; $('logout').hidden = false;
+      } catch (e) { if (e.message !== '401') { $('loginForm').hidden = true; $('app').hidden = false; $('logout').hidden = false; showErr(e.message); } }
+    }
+
+    $('loginForm').addEventListener('submit', (e) => { e.preventDefault(); setPw($('pw').value); enter(); });
+    $('logout').addEventListener('click', () => showLogin(''));
+
+    document.querySelector('.tabs').addEventListener('click', async (e) => {
+      const b = e.target.closest('button[data-tab]'); if (!b) return;
+      document.querySelectorAll('.tabs button').forEach((x) => x.setAttribute('aria-selected', x === b));
+      const mem = b.dataset.tab === 'mem';
+      $('inqView').hidden = mem; $('memView').hidden = !mem;
+      showErr('');
+      try { mem ? await loadMembers() : await loadInquiries(); } catch (err) { if (err.message !== '401') showErr(err.message); }
+    });
+
+    $('inqList').addEventListener('click', async (e) => {
+      const c = e.target.closest('.contact');
+      if (c) {
+        try { await navigator.clipboard.writeText(c.dataset.copy); toast('연락처를 복사했어요'); }
+        catch { const s = getSelection(); const rg = document.createRange(); rg.selectNodeContents(c); s.removeAllRanges(); s.addRange(rg); }
+        return;
+      }
+      const b = e.target.closest('button[data-status]'); if (!b) return;
+      try {
+        await api('/api/admin', { method: 'PATCH', body: JSON.stringify({ id: Number(b.dataset.id), status: b.dataset.status }) });
+        toast(`'${b.dataset.status}'(으)로 바꿨어요`);
+        await loadInquiries();
+      } catch (err) { if (err.message !== '401') showErr(err.message); }
+    });
+
+    if (getPw()) enter(); else $('pw').focus();
+  </script>
+</body>
+</html>
